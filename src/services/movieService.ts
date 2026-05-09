@@ -19,6 +19,4 @@ export const fetchMovies = async (
     },
   });
   return data;
-};
-
-console.log('TOKEN:', import.meta.env.VITE_TMDB_TOKEN);
+};     
