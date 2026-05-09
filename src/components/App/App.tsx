@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMovies } from '../../services/movieService';
+import type { MovieResponse } from '../../services/movieService';
 import type { Movie } from '../../types/movie';
 import SearchBar from '../SearchBar/SearchBar';
 import MovieGrid from '../MovieGrid/MovieGrid';
@@ -9,18 +10,17 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
-import css from './App.module.css';
-
+import css from './App.module.css';       
 
 const App = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<MovieResponse>({
     queryKey: ['movies', query, page],
     queryFn: () => fetchMovies(query, page),
-    enabled: !!query, // запит виконується лише якщо є пошуковий рядок
+    enabled: !!query, 
   });
 
   const handleSearch = (newQuery: string) => {
@@ -29,7 +29,7 @@ const App = () => {
       return;
     }
     setQuery(newQuery);
-    setPage(1); // скидаємо на першу сторінку
+    setPage(1); 
   };
 
   return (
