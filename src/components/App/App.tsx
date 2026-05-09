@@ -9,7 +9,7 @@ import MovieModal from '../MovieModal/MovieModal';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import toast, { Toaster } from 'react-hot-toast';
-import ReactPaginate from 'react-paginate';
+// import ReactPaginate from 'react-paginate';
 import css from './App.module.css';       
 
 const App = () => {
@@ -22,6 +22,8 @@ const App = () => {
     queryFn: () => fetchMovies(query, page),
     enabled: !!query, 
   });
+
+// const totalPages = data ? data.total_pages : 0;
 
   const handleSearch = (newQuery: string) => {
     if (!newQuery.trim()) {
@@ -47,9 +49,9 @@ const App = () => {
             movies={data.results}
             onSelect={(movie) => setSelectedMovie(movie)}
           />
-          {data.total_pages > 1 && (
+          {/* {totalPages > 1 && (
             <ReactPaginate
-              pageCount={data.total_pages}
+              pageCount={totalPages}
               pageRangeDisplayed={5}
               marginPagesDisplayed={1}
               onPageChange={({ selected }) => setPage(selected + 1)}
@@ -59,7 +61,7 @@ const App = () => {
               nextLabel="→"
               previousLabel="←"
             />
-          )}
+          )} */}
         </>
       )}
 
