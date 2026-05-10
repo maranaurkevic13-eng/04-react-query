@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { fetchMovies } from '../../services/movieService';
 import type { MovieResponse } from '../../services/movieService';
 import type { Movie } from '../../types/movie';
@@ -26,11 +27,18 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const { data, isLoading, isError } = useQuery<MovieResponse>({
+  const { data, isLoading, isError, isSuccess, isFetching } = useQuery<MovieResponse>({
     queryKey: ['movies', query, page],
     queryFn: () => fetchMovies(query, page),
+    placeholderData: keepPreviousData,
     enabled: !!query, 
   });
+
+   useEffect(() => {
+    if (isSuccess && data?.results?.length === 0 && query) {
+      toast.error('No movies found for your request.');
+    }
+  }, [isSuccess, data, query]);
 
 const totalPages = data ? data.total_pages : 0;
 
@@ -48,10 +56,8 @@ const totalPages = data ? data.total_pages : 0;
       <SearchBar onSubmit={handleSearch} />
       <Toaster position="top-center" />
 
-      {isLoading && <Loader />}
-      {isError && <ErrorMessage />}
-      {data && data.results.length === 0 && toast.error('No movies found for your request.')}
-
+      {(isLoading || isFetching) && <Loader />}
+      {isError && <ErrorMessage />}                
       {data && data.results.length > 0 && (
         <>
           <MovieGrid
