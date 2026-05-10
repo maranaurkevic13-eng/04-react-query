@@ -9,15 +9,17 @@ import MovieModal from '../MovieModal/MovieModal';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import toast, { Toaster } from 'react-hot-toast';
-// import type { ReactPaginateProps } from 'react-paginate';
-// import ReactPaginateModule from 'react-paginate';
-// import type { ComponentType } from 'react';
+import type { ReactPaginateProps } from 'react-paginate';
+import ReactPaginateModule from 'react-paginate';
+import type { ComponentType } from 'react';
 import css from './App.module.css';    
 
-// type ModuleWithDefault<T> = { default: T };
-
-// const ReactPaginate = (
-//   ReactPaginateModule as unknown as ModuleWithDefault).default;
+type ModuleWithDefault<T> = { default: T };
+const ReactPaginate = (
+  ReactPaginateModule as unknown as ModuleWithDefault<
+    ComponentType<ReactPaginateProps>
+  >
+).default;
 
 const App = () => {
   const [query, setQuery] = useState('');
@@ -30,7 +32,7 @@ const App = () => {
     enabled: !!query, 
   });
 
-// const totalPages = data ? data.total_pages : 0;
+const totalPages = data ? data.total_pages : 0;
 
   const handleSearch = (newQuery: string) => {
     if (!newQuery.trim()) {
@@ -56,7 +58,7 @@ const App = () => {
             movies={data.results}
             onSelect={(movie) => setSelectedMovie(movie)}
           />
-          {/* {totalPages > 1 && (
+          {totalPages > 1 && (
             <ReactPaginate
               pageCount={totalPages}
               pageRangeDisplayed={5}
@@ -68,7 +70,7 @@ const App = () => {
               nextLabel="→"
               previousLabel="←"
             />
-          )} */}
+          )}
         </>
       )}
 
