@@ -9,8 +9,15 @@ import MovieModal from '../MovieModal/MovieModal';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import toast, { Toaster } from 'react-hot-toast';
-// import ReactPaginate from 'react-paginate';
-import css from './App.module.css';       
+// import type { ReactPaginateProps } from 'react-paginate';
+// import ReactPaginateModule from 'react-paginate';
+// import type { ComponentType } from 'react';
+import css from './App.module.css';    
+
+// type ModuleWithDefault<T> = { default: T };
+
+// const ReactPaginate = (
+//   ReactPaginateModule as unknown as ModuleWithDefault).default;
 
 const App = () => {
   const [query, setQuery] = useState('');
